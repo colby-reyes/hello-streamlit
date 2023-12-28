@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import streamlit as st
+import os
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
@@ -22,7 +23,8 @@ st.set_page_config(
 )
 
 def set_vars():
-  st.secrets.user = st.session_state.username
+  os.environ['ST_APP_USERNAME'] = st.session_state.username
+  
   del st.session_state.username
 
 def login():
@@ -37,7 +39,7 @@ def login():
 
 def run():
 
-    st.write(f"# Hello, {st.secrets.user} -- Welcome to Streamlit! 👋")
+    st.write(f"# Hello, {os.environ['ST_APP_USERNAME']} -- Welcome to Streamlit! 👋")
     st.write(f"Any data leaked?: {st.session_state}")
     
     st.sidebar.success("Select a demo above.")
