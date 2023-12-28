@@ -16,16 +16,30 @@ import streamlit as st
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
+st.set_page_config(
+    page_title="Hello",
+    page_icon="👋",
+)
+
+def set_vars():
+  st.secrets.user = st.session_state.username
+  del st.session_state.username
+
+def login():
+
+    with st.form("login"):
+      st.text_input("Username",key="username")
+      st.form_submit_button("Login",on_click=set_vars)
+
+    return True
+    
 
 
 def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
 
-    st.write("# Welcome to Streamlit! 👋")
-
+    st.write(f"# Hello, {st.secrets.user} -- Welcome to Streamlit! 👋")
+    st.write(f"Any data leaked?: {st.session_state}")
+    
     st.sidebar.success("Select a demo above.")
 
     st.markdown(
@@ -48,4 +62,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    if login():
+      run()
